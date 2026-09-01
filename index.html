@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Amit Sail</title>
+<meta name="description" content="Amit Sail, Computer Science @ The University of Michigan. Small tools for real problems." />
+<style>
+  :root {
+    --bg: #f6f8fa;
+    --bg-elev: #ffffff;
+    --text: #1f2328;
+    --muted: #59636e;
+    --border: #d0d7de;
+    --accent: #134074;
+    --accent-soft: #e8eef6;
+    --wave-a: #0B2545;
+    --wave-b: #134074;
+    --wave-c: #8DA9C4;
+    --radius: 14px;
+    --reveal-shift: 22px;
+    --reveal-time: 620ms;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117;
+      --bg-elev: #161b22;
+      --text: #e6edf3;
+      --muted: #9198a1;
+      --border: #30363d;
+      --accent: #8DA9C4;
+      --accent-soft: #17202e;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; height: auto; display: block; }
+  a { color: var(--accent); }
+
+  .wrap { max-width: 940px; margin: 0 auto; padding: 0 20px; }
+
+  /* ---------- hero ---------- */
+  .hero {
+    position: relative;
+    background: linear-gradient(135deg, var(--wave-a) 0%, var(--wave-b) 55%, var(--wave-c) 100%);
+    color: #fff;
+    text-align: center;
+    padding: 92px 20px 116px;
+    overflow: hidden;
+  }
+  .hero h1 {
+    margin: 0;
+    font-size: clamp(2.6rem, 8vw, 4.4rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .hero p.sub {
+    margin: 14px 0 0;
+    font-size: clamp(1rem, 2.6vw, 1.2rem);
+    color: rgba(255,255,255,0.86);
+  }
+  .hero .rotator {
+    margin-top: 26px;
+    min-height: 1.8em;
+    font-family: "Fira Code", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: clamp(0.92rem, 2.4vw, 1.12rem);
+    color: #cfe2ff;
+  }
+  .rotator .caret {
+    display: inline-block;
+    width: 2px;
+    background: #cfe2ff;
+    margin-left: 3px;
+    animation: blink 1.05s step-end infinite;
+    vertical-align: -0.15em;
+    height: 1.15em;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .hero .wave {
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    width: 100%; height: 70px;
+    display: block;
+  }
+  .hero .wave path { fill: var(--bg); }
+
+  .cta { margin-top: 30px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .cta a {
+    display: inline-block;
+    padding: 9px 18px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 600;
+    background: rgba(255,255,255,0.14);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.28);
+    transition: background 180ms ease, transform 180ms ease;
+  }
+  .cta a:hover { background: rgba(255,255,255,0.26); transform: translateY(-2px); }
+
+  /* ---------- sections ---------- */
+  section { padding: 62px 0 8px; }
+  h2 {
+    font-size: 1.55rem;
+    margin: 0 0 22px;
+    letter-spacing: -0.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  h2::after {
+    content: "";
+    flex: 1; height: 1px;
+    background: var(--border);
+  }
+  .lede { font-size: 1.06rem; color: var(--text); }
+  .lede + .lede { margin-top: 14px; }
+  .muted { color: var(--muted); }
+
+  ul.facts { list-style: none; padding: 0; margin: 26px 0 0; }
+  ul.facts li {
+    padding: 9px 0 9px 34px;
+    position: relative;
+    border-top: 1px solid var(--border);
+  }
+  ul.facts li:last-child { border-bottom: 1px solid var(--border); }
+  ul.facts .emoji { position: absolute; left: 0; top: 9px; }
+
+  /* ---------- project cards ---------- */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .card {
+    background: var(--bg-elev);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(11,37,69,0.13);
+    border-color: var(--accent);
+  }
+  .card h3 { margin: 0 0 6px; font-size: 1.12rem; }
+  .card h3 a { text-decoration: none; color: var(--text); }
+  .card h3 a:hover { color: var(--accent); }
+  .card p { margin: 10px 0 16px; color: var(--muted); font-size: 0.95rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 7px; }
+  .tag {
+    font-size: 0.74rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border: 1px solid var(--border);
+  }
+  .status { font-size: 0.72rem; font-weight: 700; padding: 3px 10px; border-radius: 999px; color: #fff; }
+  .status.done    { background: #1f883d; }
+  .status.wip     { background: #bf8700; }
+  .status.hiatus  { background: #6e7781; }
+  .card .links { display: flex; gap: 14px; margin-top: 16px; font-size: 0.88rem; }
+  .card .links a { text-decoration: none; font-weight: 600; }
+  .card .links a:hover { text-decoration: underline; }
+
+  /* ---------- stack ---------- */
+  .stack-group { margin-bottom: 22px; }
+  .stack-group h4 {
+    margin: 0 0 10px;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.09em;
+    color: var(--muted);
+  }
+  .pills { display: flex; flex-wrap: wrap; gap: 8px; }
+  .pill {
+    font-size: 0.86rem; font-weight: 600;
+    padding: 6px 14px; border-radius: 8px;
+    color: #fff; white-space: nowrap;
+  }
+
+  /* ---------- stats ---------- */
+  .stats { display: flex; flex-wrap: wrap; gap: 16px; justify-content: center; }
+  .stats img { border-radius: 10px; }
+
+  footer {
+    margin-top: 70px;
+    background: linear-gradient(135deg, var(--wave-c) 0%, var(--wave-b) 45%, var(--wave-a) 100%);
+    color: rgba(255,255,255,0.9);
+    text-align: center;
+    padding: 40px 20px;
+    font-size: 0.9rem;
+  }
+  footer a { color: #fff; }
+
+  /* ---------- scroll hint ---------- */
+  .scroll-hint {
+    position: fixed;
+    left: 30px;
+    bottom: 38px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    pointer-events: none;          /* never intercept a click */
+    transition: opacity 420ms ease, transform 420ms ease;
+  }
+  .scroll-hint.is-gone {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  .scroll-hint .label {
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    font-size: 0.66rem;
+    font-weight: 700;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* The boat sails downward and fades out, then re-enters from the top,
+     so the loop reads as continuous travel rather than a bounce.
+     Drift and rock run on different periods so they never sync up
+     into something visibly mechanical. */
+  .scroll-hint .berth {
+    height: 60px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  .scroll-hint .drift {
+    display: block;
+    animation: sail-drift 3.1s cubic-bezier(.45,0,.55,1) infinite;
+  }
+  .scroll-hint .boat {
+    display: block;
+    color: var(--accent);
+    transform-origin: 50% 82%;   /* pivot at the waterline, not the masthead */
+    animation: sail-rock 1.9s ease-in-out infinite;
+  }
+  @keyframes sail-drift {
+    0%   { transform: translateY(-8px); opacity: 0; }
+    18%  { opacity: 1; }
+    72%  { opacity: 1; }
+    100% { transform: translateY(18px); opacity: 0; }
+  }
+  @keyframes sail-rock {
+    0%, 100% { transform: rotate(-5deg); }
+    50%      { transform: rotate(5deg); }
+  }
+  .scroll-hint .wake {
+    color: var(--accent);
+    animation: wake-shimmer 3.1s ease-in-out infinite;
+  }
+  @keyframes wake-shimmer {
+    0%, 100% { opacity: 0.22; transform: translateX(-2px); }
+    50%      { opacity: 0.62; transform: translateX(2px); }
+  }
+  /* The wrapper is 940px; below this the hint would crowd the content. */
+  @media (max-width: 1080px) { .scroll-hint { display: none; } }
+
+  /* ---------- scroll reveal ----------
+     .will-reveal is added by JS, so with JS disabled every block
+     stays visible instead of being stuck at opacity 0. */
+  .will-reveal {
+    opacity: 0;
+    transform: translateY(var(--reveal-shift));
+    transition: opacity var(--reveal-time) cubic-bezier(.2,.65,.3,1),
+                transform var(--reveal-time) cubic-bezier(.2,.65,.3,1);
+    transition-delay: var(--delay, 0ms);
+    will-change: opacity, transform;
+  }
+  .will-reveal.is-visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .will-reveal { opacity: 1; transform: none; transition: none; }
+    .card:hover { transform: none; }
+    .cta a:hover { transform: none; }
+    .rotator .caret { animation: none; }
+    .scroll-hint .drift,
+    .scroll-hint .boat,
+    .scroll-hint .wake { animation: none; opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1 data-reveal>Amit Sail</h1>
+  <p class="sub" data-reveal>Computer Science @ The University of Michigan</p>
+  <div class="rotator" data-reveal><span id="rot"></span><span class="caret"></span></div>
+  <div class="cta" data-reveal>
+    <a href="https://github.com/Sail-Nautica">GitHub</a>
+    <a href="#projects">Projects</a>
+    <a href="https://sail-nautica.github.io/CAP-Cadet-Promotion-Tracker/">CAP Tracker</a>
+  </div>
+  <svg class="wave" viewBox="0 0 1440 70" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0,40 C240,72 480,8 720,26 C960,44 1200,66 1440,34 L1440,70 L0,70 Z"></path>
+  </svg>
+  <div class="scroll-hint" aria-hidden="true">
+    <span class="label">Scroll</span>
+    <span class="berth"><span class="drift">
+      <svg class="boat" width="38" height="44" viewBox="0 0 38 44" fill="none" aria-hidden="true">
+        <path d="M19 5 L19 31" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        <path d="M17.4 7.5 L17.4 30 L4.6 30 Z" fill="currentColor"/>
+        <path d="M20.6 13 L20.6 30 L30.5 30 Z" fill="currentColor" opacity="0.5"/>
+        <path d="M2.5 33 L35.5 33 L30.5 41.5 L7.5 41.5 Z" fill="currentColor"/>
+      </svg>
+    </span></span>
+    <svg class="wake" width="40" height="10" viewBox="0 0 40 10" fill="none" aria-hidden="true">
+      <path d="M2 6 Q 8 2, 14 6 T 26 6 T 38 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+    </svg>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section id="about">
+    <h2 data-reveal>About Me</h2>
+    <p class="lede" data-reveal>I'm an engineering student at <strong>The University of Michigan</strong> who builds small tools for problems I run into. Whether it's promotion paperwork, logging rowing workouts, or calendars that refuse to talk to each other.</p>
+    <p class="lede" data-reveal>Most of my time goes to C++ coursework, Swift app development, and a JavaScript tracker now used to plan <strong>Civil Air Patrol</strong> cadet promotions. I also work on the programming &amp; navigation sub team on <strong>Michigan Autonomous Aerial Vehicles (MAAV)</strong>.</p>
+    <ul class="facts">
+      <li data-reveal><span class="emoji">&#128296;</span>Currently building &rarr; <a href="https://github.com/Sail-Nautica/RowPilot"><strong>RowPilot</strong></a>, on-water workout collection for rowing</li>
+      <li data-reveal><span class="emoji">&#128230;</span>Shipped &rarr; <a href="https://sail-nautica.github.io/CAP-Cadet-Promotion-Tracker/"><strong>CAP Cadet Promotion Tracker</strong></a>: upload a full-track report, get overdue and upcoming promotions</li>
+      <li data-reveal><span class="emoji">&#127793;</span>Learning &rarr; SwiftUI, sensor data pipelines, and making things fast instead of just correct</li>
+      <li data-reveal><span class="emoji">&#9889;</span>Fun fact &rarr; the handle is a sailing joke I am committed to</li>
+    </ul>
+  </section>
+
+  <section id="projects">
+    <h2 data-reveal>Featured Projects</h2>
+    <div class="grid">
+
+      <article class="card" data-reveal>
+        <h3><a href="https://github.com/Sail-Nautica/CAP-Cadet-Promotion-Tracker">&#127894;&#65039; CAP Cadet Promotion Tracker</a></h3>
+        <span class="status done">shipped</span>
+        <p>Upload a cadet full-track report and instantly see overdue promotions, upcoming dates, completed requirements, and what is still missing.</p>
+        <div class="tags">
+          <span class="tag">JavaScript</span><span class="tag">HTML5</span><span class="tag">CSS3</span>
+        </div>
+        <div class="links">
+          <a href="https://sail-nautica.github.io/CAP-Cadet-Promotion-Tracker/">Live demo &rarr;</a>
+          <a href="https://github.com/Sail-Nautica/CAP-Cadet-Promotion-Tracker">Source</a>
+        </div>
+      </article>
+
+      <article class="card" data-reveal>
+        <h3><a href="https://github.com/Sail-Nautica/RowPilot">&#128675; RowPilot</a></h3>
+        <span class="status done">MVP complete</span>
+        <p>Workout activity collection for rowing on the water: capture the session on the boat, review it on shore.</p>
+        <div class="tags">
+          <span class="tag">Swift</span><span class="tag">iOS</span>
+        </div>
+        <div class="links"><a href="https://github.com/Sail-Nautica/RowPilot">Source</a></div>
+      </article>
+
+      <article class="card" data-reveal>
+        <h3><a href="https://github.com/Sail-Nautica/BetterCalendar">&#128197; BetterCalendar</a></h3>
+        <span class="status wip">in progress</span>
+        <p>One calendar that actually talks to the others: multiple online and local calendars stitched into a single view.</p>
+        <div class="tags">
+          <span class="tag">Swift</span><span class="tag">SwiftUI</span>
+        </div>
+        <div class="links"><a href="https://github.com/Sail-Nautica/BetterCalendar">Source</a></div>
+      </article>
+
+      <article class="card" data-reveal>
+        <h3><a href="https://github.com/MAAV-Software/px4_ros_com_ws">&#128641; px4_ros_com_ws</a></h3>
+        <span class="status hiatus">hiatus</span>
+        <p>The navigation repository for our autonomous drone swarms, built with the Michigan Autonomous Aerial Vehicles team.</p>
+        <div class="tags">
+          <span class="tag">C++</span><span class="tag">ROS 2</span><span class="tag">PX4</span>
+        </div>
+        <div class="links"><a href="https://github.com/MAAV-Software/px4_ros_com_ws">Source</a></div>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="stack">
+    <h2 data-reveal>Languages and Tools</h2>
+
+    <div class="stack-group" data-reveal>
+      <h4>Languages</h4>
+      <div class="pills">
+        <span class="pill" style="background:#00599C">C++</span>
+        <span class="pill" style="background:#ED8B00">Java</span>
+        <span class="pill" style="background:#F05138">Swift</span>
+        <span class="pill" style="background:#F7DF1E;color:#111">JavaScript</span>
+        <span class="pill" style="background:#3776AB">Python</span>
+      </div>
+    </div>
+
+    <div class="stack-group" data-reveal>
+      <h4>Web</h4>
+      <div class="pills">
+        <span class="pill" style="background:#E34F26">HTML5</span>
+        <span class="pill" style="background:#1572B6">CSS3</span>
+        <span class="pill" style="background:#222">GitHub Pages</span>
+      </div>
+    </div>
+
+    <div class="stack-group" data-reveal>
+      <h4>Apple Development</h4>
+      <div class="pills">
+        <span class="pill" style="background:#0071E3">SwiftUI</span>
+        <span class="pill" style="background:#000">iOS</span>
+        <span class="pill" style="background:#147EFB">Xcode</span>
+      </div>
+    </div>
+
+    <div class="stack-group" data-reveal>
+      <h4>Data &amp; Analysis</h4>
+      <div class="pills">
+        <span class="pill" style="background:#F37626">Jupyter</span>
+        <span class="pill" style="background:#013243">NumPy</span>
+        <span class="pill" style="background:#150458">pandas</span>
+        <span class="pill" style="background:#11557C">Matplotlib</span>
+      </div>
+    </div>
+
+    <div class="stack-group" data-reveal>
+      <h4>Tools</h4>
+      <div class="pills">
+        <span class="pill" style="background:#F05032">Git</span>
+        <span class="pill" style="background:#2088FF">GitHub Actions</span>
+        <span class="pill" style="background:#007ACC">VS Code</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="stats">
+    <h2 data-reveal>GitHub Stats</h2>
+    <div class="stats">
+      <img data-reveal loading="lazy" width="850"
+           src="https://github-profile-summary-cards.vercel.app/api/cards/profile-details?username=Sail-Nautica&amp;theme=default"
+           alt="Profile details for Sail-Nautica" />
+      <img data-reveal loading="lazy" height="200"
+           src="https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username=Sail-Nautica&amp;theme=default"
+           alt="Repositories per language" />
+      <img data-reveal loading="lazy" height="200"
+           src="https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username=Sail-Nautica&amp;theme=default"
+           alt="Most used languages by commit" />
+      <img data-reveal loading="lazy" height="180"
+           src="https://streak-stats.demolab.com?user=Sail-Nautica&amp;hide_border=true"
+           alt="Contribution streak" />
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p data-reveal>Built by Amit Sail &middot; <a href="https://github.com/Sail-Nautica">github.com/Sail-Nautica</a></p>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  /* ---------- scroll reveal ---------- */
+  var blocks = Array.prototype.slice.call(document.querySelectorAll("[data-reveal]"));
+  var reduced = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (!reduced && "IntersectionObserver" in window) {
+    // Only hide the blocks once we know we can reveal them again.
+    blocks.forEach(function (el) { el.classList.add("will-reveal"); });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        // Stagger siblings so a row of cards cascades instead of popping at once.
+        var siblings = el.parentNode ? Array.prototype.slice.call(el.parentNode.children) : [];
+        var index = siblings.indexOf(el);
+        el.style.setProperty("--delay", Math.min(index, 6) * 80 + "ms");
+        el.classList.add("is-visible");
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -60px 0px" });
+
+    blocks.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ---------- scroll hint ---------- */
+  var hint = document.querySelector(".scroll-hint");
+  if (hint) {
+    var syncHint = function () {
+      hint.classList.toggle("is-gone", window.pageYOffset > window.innerHeight * 0.35);
+    };
+    window.addEventListener("scroll", syncHint, { passive: true });
+    syncHint();
+  }
+
+  /* ---------- hero rotator ---------- */
+  var phrases = [
+    "Sophomore @ UofM",
+    "C++ • Java • Swift • JavaScript • Python",
+    "Small tools for real problems",
+    "Michigan Autonomous Aerial Vehicles",
+    "Civil Air Patrol - USAF Auxiliary"
+  ];
+  var out = document.getElementById("rot");
+  if (!out) return;
+
+  if (reduced) { out.textContent = phrases[0]; return; }
+
+  var p = 0, c = 0, deleting = false;
+  function tick() {
+    var full = phrases[p];
+    c += deleting ? -1 : 1;
+    out.textContent = full.slice(0, c);
+
+    var wait = deleting ? 35 : 65;
+    if (!deleting && c === full.length) { deleting = true; wait = 1600; }
+    else if (deleting && c === 0) { deleting = false; p = (p + 1) % phrases.length; wait = 320; }
+    setTimeout(tick, wait);
+  }
+  tick();
+})();
+</script>
+
+</body>
+</html>
